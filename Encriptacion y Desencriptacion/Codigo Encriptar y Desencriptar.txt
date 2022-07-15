@@ -1,0 +1,75 @@
+//***************************************FUNCION ENCRIPTAR Y DESENCRIPTAR*******************************************************//
+void Encriptar(void);
+void Desencriptar(void);
+void Comprobar(void);
+//***************************************FUNCION ENCRIPTAR Y DESENCRIPTAR*******************************************************//
+
+int main()
+{
+	Comprobar();//Para comprobar que no haya ningun registro en el archivo.
+	Encriptar();//Para encriptar el archivo.
+	Desencriptar();//Para desencirptar el archivo.
+	/* Se suponque que se debe de poner al principio y al final de cada función en el menu (Lugar donde colocarse). */
+}
+
+/*************************************************************METODO DE DES/ENCRIPTAMIENTO*************************************************************/
+void Encriptar()
+{
+	char car='\0';
+	
+	pf_A=fopen(Nombre_Archivo,"rb");
+   	pf=fopen(Nombre_Archivo,"r+b");
+    if(pf==NULL && pf_A==NULL)
+	{
+    	cout<<"Error al abrir el archivo nuevo\n";
+    }
+    while(fread(&car,1,1,pf_A)!=0)
+	{
+     	if(car=='\r' && car=='\n')
+        {
+        	fprintf(pf,"\r\n");
+		}
+		car+=20;
+        fwrite(&car,1,1,pf);
+    }
+    fclose(pf);
+    fclose(pf_A);
+}
+
+void Desencriptar()
+{
+	char car='\0';
+    pf_A=fopen(Nombre_Archivo,"rb");
+    pf=fopen(Nombre_Archivo,"r+b");
+	if(pf==NULL && pf_A==NULL)
+	{
+     	cout<<"Error al abrir el archivo nuevo\n";
+    }
+	while(fread(&car,1,1,pf_A)!=0)
+	{
+    	car-=20;
+    	fwrite(&car,1,1,pf);
+   	}
+   	fclose(pf);
+    fclose(pf_A);
+}
+
+void Comprobar()
+{
+	pf=fopen(Nombre_Archivo,"rb");
+				int contador=0;
+				do
+				{
+					fread(&CD,sizeof(&CD),1,pf);
+					if(!feof(pf))
+					{
+						contador++;
+					}
+				}while(!feof(pf));
+				if(contador!=0)
+				{
+					Desencriptar();
+				}
+				fclose(pf);
+}
+/*************************************************************METODO DE DES/ENCRIPTAMIENTO*************************************************************/
